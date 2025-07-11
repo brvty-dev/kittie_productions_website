@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/static/sitemap.xsl"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://kittieproductions.co.uk/</loc>
+  <lastmod>2025-07-11T12:22:00+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://kittieproductions.co.uk/login?user_id=</loc>
+  <lastmod>2025-07-11T12:22:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://kittieproductions.co.uk/gallery</loc>
+  <lastmod>2025-07-11T12:22:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://kittieproductions.co.uk/about</loc>
+  <lastmod>2025-07-11T12:22:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://kittieproductions.co.uk/error_404</loc>
+  <lastmod>2025-07-11T12:22:00+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://kittieproductions.co.uk/terms</loc>
+  <lastmod>2025-07-11T12:22:00+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://kittieproductions.co.uk/forgotten_password?user_id=</loc>
+  <lastmod>2025-07-11T12:22:00+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
+</urlset>

@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://kittieproductions.co.uk/sitemap.xml

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+  {% block title %}
+    ABOUT KITTIE
+  {% endblock %}
+
+  {% block content %}
+
+    <div id="myDIVC" class="about_text">
+      <br>
+      <br>
+      <br>
+      <h2 style="position:absolute; left:-9999px;color: #000000;">About Kittie Productions</h2>
+        <p class="text_main">
+          Kittie Productions develops feature length motion pictures and television series that appeal to broad audiences. 
+          Working within the existing industry framework, Kittie offers value to stakeholders through co-production and by 
+          targeting foreign and domestic markets.
+        </p>
+        <p class="contact">
+          Company No: 13629162
+          <br>
+          &copy; {{ current_year }}. 
+          <a href="{{ url_for('views.terms', user_id=current_user.id) }}">
+            All rights reserved</a>.
+          <br>
+          No unsolicited submissions.
+        </p>
+          <a 
+            class="contact" 
+            href="mailto:hello@kittieproductions.co.uk"
+          >
+            hello@kittieproductions.co.uk
+          </a>
+      <br>
+      <br>
+      <br>
+    </div>
+
+  {% endblock %}

@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+
+  {% block title %}
+    KITTIE'S TERMS
+  {% endblock %}
+
+  {% block content %}
+
+    <div class="terms_column">
+      <h2 id="terms" class="terms_head">
+        Terms of Service
+      </h2>
+        <p>
+          These Terms of Use are issued by Kittie Productions Limited to users of this website. They shall continue in perpetuity. 
+          All users must indicate their acceptance of this Agreement before using the website. If users do not agree with any part 
+          of these terms they must refrain from using the website.
+        </p>
+        <p>
+          These terms should be viewed in conjunction with our 
+            <a href="{{ url_for('views.terms', user_id=current_user.id) }}#cookie_policy">Cookie Policy</a> & <a href="{{ url_for('views.terms', user_id=current_user.id) }}#privacy">Privacy Notice</a>.
+        </p>
+        <p>
+          Kittie Productions reserve the right to amend or withhold our services without notice. We accept no legal responsibility for 
+          any events caused to users when accessing this site.
+        </p>
+        <p>
+          We accept no legal responsibility for any events caused to users when accessing this site. It is the user's responsibility to ensure the security of their internet connection. As such, we are not 
+          liable for any loss or damage caused to your computer equipment, programs or data.
+        </p>
+        <p>
+          Users may not interfere with, damage or disrupt any part of this website.
+        </p>
+        <p>
+            This website was designed by <a href="https://www.brvty.online" target="_blank" class="lexend-giga-logo" aria-label="A link to BRVTY online web services">BRVTY</a> online web services.
+        </p>
+          <h3>
+            Commercial Content
+          </h3>
+            <p>
+              Kittie Productions is the owner or licensee of all intellectual property rights disclosed on the Site.  All rights are reserved 
+              and protected by copyright laws worldwide.
+            </p>
+            <p>
+              Kittie Productions asserts their right to be acknowledged as the authors of the material on the website.
+            </p>
+            <p>
+              The information contained on this website is provided expressly for the purpose of informing the reader of Kittie Productions' 
+              commercial intentions.
+            </p>
+            <p>
+              In accessing the website, users acknowledge and agrees that:
+            </p>
+            <ol>
+              <li>
+                Its content must not be duplicated or distributed in any way without prior permission from Kittie Productions Limited.
+              </li>
+              <li>
+                Content may not be download and altered in any way.
+              </li>
+            </ol>
+          <h3>
+            Submissions
+          </h3>
+            <p>
+              Kittie Productions is unable to accept unsolicited material. All ideas, loglines, treatments, outlines, 
+              screenplays and other creative content received by any means without prior consent, will be discarded.
+            </p>
+          <h3>
+            Welcome Emails
+          </h3>
+            <p>
+              Welcome emails are used to provide login credentials to securly share further information about our commercial activities. 
+              Emails are distributed as a result of communication between you and/or a member of your organisation.
+            </p>
+            <p>
+              Provision of login credentials does not constitute any sale or offer of equity. They are provided confidentially, solely for the 
+              benefit of industry personnel. They are not to be used by any other persons for any other means.
+            </p>
+            <p>
+              We use procedures to prevent unauthorised access to your information once it's received and stored.
+            </p>
+            <p>
+              We may use information you provide us to supply additional updates about our activities, products or services.
+            </p>
+            <p>
+              In accepting and creating login credentials, you the recipient acknowledges and agrees that:
+            </p>
+              <ol>
+                <li>
+                  If printed, hardcopy documents will be destroyed or returned to our company address as soon as reasonably practicable
+                </li>
+                <li>
+                  If downloaded, material will be deleted from your system once the contents have been considered
+                </li>
+                <li>
+                  The contents will not be duplicated or distributed in any way without prior permission from Kittie Productions Limited
+                </li>
+                <li>
+                  The information will be treated in the strictest of confidence.
+                </li>
+              </ol>
+      <h2 id="privacy" class="terms_head">
+        Privacy Notice
+      </h2>
+        <p>
+          This Privacy Notice describes the way we handle any personal data that you provide to us. It should be read in conjunction with our 
+          <a href="{{ url_for('views.terms', user_id=current_user.id) }}#terms">Terms of Use</a> & <a href="{{ url_for('views.terms', user_id=current_user.id) }}#cookie_policy">Cookie Policy</a>.
+        </p>
+        <p>
+          In accordance with the Data Protection Act 1998, the data controller is Kittie Productions Limited.
+        </p>
+        <p>
+          We may collect and process the following data about you:
+        </p>
+          <ul>
+            <li>
+              Information that you provide in person or through electronic means
+            </li>
+            <li>
+              If you contact us requesting further material or services, we may keep a record of correspondence
+            </li>
+          </ul>
+        <p>
+          We may disclose your personal information to third parties:
+        </p>
+          <ul>
+            <li>
+              If Kittie Productions Limited is acquired by a third party, as it will be considered an asset.
+            </li>
+            <li>
+              If we are obliged to do so in order to comply with a legal obligation, or to protect the rights, property, 
+              or safety of Kittie Productions Limited. This includes fraud protection.
+            </li>
+          </ul>
+        <p>
+          We do not process your personal data for marketing purposes.</p>
+        <p>
+          The Act gives you the right to access information held about you.
+        </p>
+        <p>
+          Any questions or requests regarding your data should be addressed to 
+          <a href="mailto:hello@kittieproductions.co.uk">
+            hello@kittieproductions.co.uk</a>, 
+            marked with the subject line 'PRIVACY'.
+          </p>
+            <h3>
+              General Data Protection Regulations (GDPR)
+            </h3>
+              <p>
+                Under GDPR and the UK Data Protection Act 2018, you have the right to:
+              </p>
+                <ul>
+                  <li>
+                    Access the personal data we hold about you
+                  </li>
+                  <li>
+                    Request correction of inaccurate or incomplete information
+                  </li>
+                  <li>
+                    Request deletion of your personal data ("right to be forgotten")
+                  </li>
+                  <li>
+                    Object to our use and processing of your data
+                  </li>
+                  <li>
+                    Withdraw consent at any time where consent has been given
+                  </li>
+                </ul>
+              <p>
+                To exercise any of these rights, please contact us at 
+                <a href="mailto:hello@kittieproductions.co.uk">
+                  hello@kittieproductions.co.uk
+                </a> 
+                with the subject line "Privacy Request".
+              </p>
+            <h3 id="cookie_policy">
+              Cookie Policy
+            </h3>
+              <p>
+                This Cookie Policy describes our use of cookies in relation to your acrtivity on the site. It should be read in conjunction with our 
+                <a href="{{ url_for('views.terms', user_id=current_user.id) }}#terms">Terms of Use</a> & <a href="{{ url_for('views.terms', user_id=current_user.id) }}#privacy">Privacy Notice</a>.
+              </p>
+              <p>
+                If you are provided with login credentials, essential cookies are used as part of the login process to manage your session within the web browser.
+              </p>
+              <p>
+                If you do not wish to accept the use of essential cookies, you should refrain from setting a password.
+              </p>
+              <p>
+                Upon first visit, cookies are used to set your preferences while using the site. 
+                Cookies are stored in your browser for one year unless cleared earlier.
+              </p>
+              <p>
+                By selecting your cookie preferences and continuing to browse this site, you consent to the use of cookies as outlined in this policy. 
+                No personal data beyond your selected preferences is stored via cookies.
+              </p>
+                <h4>
+                  Essential Cookies
+                </h4>
+                  <p>
+                    These cookies allow your preferences to be saved for future visits and are necessary for the site's basic functionality.
+                  </p>
+                <h4>
+                  Additional Cookies
+                </h4>
+                  <p>
+                    Additional cookies enhance your user experience (UX) by providing optional features. 
+                    We reserve the right to update or remove these features without prior notice.
+                  </p>
+                <h4 id="update">
+                  Updating Preferences
+                </h4>
+                  <p>
+                    You can update your cookie preferences at any time:
+                  </p>
+
+                    <div class="update-preferences">
+                      <form class="preferences" action="{{ url_for('cooks.update_cookie_preference') }}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ session['_csrf_token'] }}">
+                          <p>
+                            Essential Cookies:
+                          </p>
+                            <label for="cookie_preference" class="switch" aria-label="Enable cookie preferences">
+                              <input 
+                                id="cookie_preference" 
+                                aria-label="Enable cookie preferences" 
+                                type="checkbox" 
+                                name="cookie_preference" 
+                                  {% if cookie_accepted %}
+                                    checked
+                                  {% endif %}
+                              >
+                              <span class="slider round"></span>
+                            </label>
+                          <p>
+                            Additional Cookies:
+                          </p>
+                            <br>
+                              <button type="submit" class="save noto-sans-link">
+                                Save
+                              </button>
+                      </form>
+                    </div>
+
+      <h2>
+        Definitions
+      </h2>
+        <p>
+          Except to the extent expressly provided otherwise, in this Agreement:
+        </p>
+        <p>
+          <span class="bold">"Website</span>" or "<span class="bold">Site</span>" means the domain www.kittieproductions.co.uk and all its pages.
+        </p>
+        <p>
+          "<span class="bold">Us</span>" or "<span class="bold">We</span>" means owners of the website Kittie Productions.
+        </p>
+        <p>
+          "<span class="bold">You</span>" means visitors to the domain www.kittieproductions.co.uk and all its pages.
+        </p>
+        <p>
+          "<span class="bold">the Act</span>" means the Data Protection Act 1998.
+        </p>
+        <p>
+          "<span class="bold">Material</span>" means commercial content contained on www.kittieproductions.co.uk.
+        </p>
+
+    </div>
+
+  {% endblock %}

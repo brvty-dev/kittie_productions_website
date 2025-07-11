@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+  {% block title %}
+    Ooops!
+  {% endblock %}
+
+  {% block content %}
+
+    <div class="index_logo">
+      <h2 style="position:absolute; left:-9999px;color: #000000;">Kittie Productions' 404 page</h2>
+      <div class="w3-container w3-center w3-animate-zoom">
+        <p class="error_page ooops">
+          Ooops!
+        </p>
+        <p class="error_page">
+          The page you were looking for doesn't exist.
+        </p>
+          <a 
+            class="error_button" 
+            href="{{ url_for('views.index') }}" 
+            aria-label="Kittie Home Page"
+          >
+            TAKE ME HOME
+          </a>
+      </div>
+    </div>  
+
+  {% endblock %}

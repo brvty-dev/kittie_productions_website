@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+  {% block title %}
+    ADD USER
+  {% endblock %}
+
+    {% block extra_css %}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css">
+    {% endblock %}
+
+  {% block content %}
+
+    <div class="login-card">
+      <form method="POST" enctype="multipart/form-data">
+        <h3>
+          Add User
+        </h3>
+          <label for="email">
+            Email Address
+          </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="browser-default"
+              placeholder="Enter email.." 
+              autocomplete="on"
+            >
+          <label for="firstName">
+            First Name
+          </label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              class="browser-default"
+              placeholder="Enter first name.."
+            >
+          <label for="lastName">
+            Last Name
+          </label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              class="browser-default"
+              placeholder="Enter last name.."
+            >
+          <br>
+          <br>
+            <button type="submit" class="btn btn-primary">
+              Add
+            </button>
+              <a 
+                href="{{ url_for('views.view_users', user_id=current_user.id) }}" 
+                role="button" alt="Cancel Button" 
+                class="btn btn-primary right-cancel"
+              >
+                Cancel
+              </a>
+      </form>
+    </div>
+
+  {% endblock %}

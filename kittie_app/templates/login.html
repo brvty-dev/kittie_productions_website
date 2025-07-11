@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+  {% block title %}
+    KITTIE LOGIN
+  {% endblock %}
+
+    {% block extra_css %}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css">
+    {% endblock %}
+
+  {% block content %}
+  <h2 style="position:absolute; left:-9999px;color: #000000;">Login to Kittie Productions</h2>
+    <div id="myDIVI" class="login-card">
+      <form method="POST" enctype="multipart/form-data">
+        <img 
+          src="{{ url_for('static', filename='images/kittie_logo_socials.jpg') }}" 
+          alt="Kittie Productions Logo" 
+          style="max-width:15%;"
+        >
+          <h3>
+            Login
+          </h3>
+            <label for="email">
+              Email Address:
+            </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="browser-default"
+                placeholder="Enter email.." 
+                autocomplete="on"
+              >
+                <br>
+                <br>
+            <label for="password">
+              Password:
+            </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="browser-default"
+                placeholder="Enter password.."
+              >
+                <br>
+                <br>
+            <label for="confirm">
+              <input 
+                type="checkbox" 
+                id="confirm" 
+                name="confirm" 
+                value="confirm" 
+                class="filled-in"
+                checked="checked"
+                required
+              >
+                <span>
+                  I agree to Kittie's 
+                  <a href="{{ url_for('views.terms', user_id=current_user.id) }}">
+                    Terms of Service</a>.
+                </span>
+            </label>
+              <br>
+              <br>
+                <button type="submit" class="btn btn-primary">
+                  Login
+                </button>
+                  <a 
+                    href="{{ url_for('views.index') }}" 
+                    role="button" 
+                    alt="Cancel Button" 
+                    class="btn btn-primary right-cancel"
+                  >
+                    Cancel
+                  </a>
+                    <br>
+                    <br>
+                      <p>
+                        Forgotten your password? 
+                          <a 
+                            class="login-card-link" 
+                            href="{{ url_for('auth.forgotten_password', user_id=current_user.id) }}" 
+                          >
+                            Reset
+                          </a>
+                      </p>
+      </form>
+    </div>
+
+  {% endblock %}

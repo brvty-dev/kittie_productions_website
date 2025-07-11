@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+  {% block title %}
+    KITTIE PICS
+  {% endblock %}
+
+  {% block content %}
+
+    <div id="myDIVC" class="photo_gallery">
+      <h2 style="position:absolute; left:-9999px;color: #000000;">Kittie Productions' gallery</h2>
+
+      <div class="photo_gallery_r">
+
+        <div class="photo_gallery_column">
+          <div class="frame">
+            <img src="{{ url_for('static', filename='gallery/russian_arm.jpg') }}" alt="Russian Arm">
+              <br>
+                <p class="handwriting">
+                  Russian Arm
+                </p>
+          </div>
+            <br>
+            <br>
+          <div class="frame">
+            <img src="{{ url_for('static', filename='gallery/gaffer.jpg') }}" alt="Gaffer">
+              <br>
+                <p class="handwriting">
+                  Gaffer
+                </p>
+          </div>
+            <br>
+            <br>
+          <div class="frame">
+            <img src="{{ url_for('static', filename='gallery/seasons.jpg') }}" alt="Set Dressing">
+              <br>
+                <p class="handwriting">
+                  Set Dressing
+                </p>
+          </div>
+        </div>
+
+          <br>
+          <br>
+
+        <div class="photo_gallery_column middle">
+          <div class="frame">
+            <img src="{{ url_for('static', filename='gallery/gimbal.jpg') }}" alt="Gimbal">
+              <br>
+                <p class="handwriting">
+                  Gimbal
+                </p>
+          </div>
+            <br>
+            <br>
+          <div class="frame">
+            <img src="{{ url_for('static', filename='gallery/clowning_around.jpg') }}" alt="Blocking">
+              <br>
+                <p class="handwriting">
+                  Blocking
+                </p>
+          </div>
+            <br>
+            <br>
+          <div class="frame">
+            <img src="{{ url_for('static', filename='gallery/arri_cam.jpg') }}" alt="Arri Cam Setup">
+              <br>
+                <p class="handwriting">
+                  Camera
+                </p>
+          </div>
+        </div>
+
+        <div class="photo_gallery_column side">
+          <div class="frame">
+            <img src="{{ url_for('static', filename='gallery/darren_h.jpg') }}" alt="Take 2">
+              <br>
+                <p class="handwriting">
+                  Take 2!
+                </p>
+          </div>
+            <br>
+            <br>
+          <div class="frame">
+            <img src="{{ url_for('static', filename='gallery/car_rig.jpg') }}" alt="Car Rig">
+              <br>
+                <p class="handwriting">
+                  Car Rigging
+                </p>
+          </div>
+        </div>
+
+      </div>
+
+            <br>
+            <br>
+            <br>
+            
+    </div>
+
+ {% endblock %}

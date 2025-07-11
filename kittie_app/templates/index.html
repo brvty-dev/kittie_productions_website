@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+  {% block title %}
+    KITTIE PRODUCTIONS
+  {% endblock %}
+
+  {% block content %}
+
+    <div class="index_logo">
+      <h2 style="position:absolute; left:-9999px;color: #000000;">Kittie Productions' Homepage</h2>
+      <div class="w3-container w3-center w3-animate-zoom">
+        <img 
+          src="{{ url_for('static', filename='images/kittie_logo_bg.png') }}" 
+          alt="Kittie Productions Logo" 
+          style="width:242px;height:250px;"
+        >
+          <br>
+          <br>
+          <br>
+      </div>
+    </div>
+
+  {% endblock %}

@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+  {% block title %}
+    {{ kittie_production.title }}
+  {% endblock %}
+
+    {% block extra_css %}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css">
+    {% endblock %}
+
+  {% block content %}
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+        <div class="project">
+            <div class="project_r-container">
+                <div class="project_left">
+                    <div class="cover">
+                        <img 
+                            src="{{ kittie_production.cover_file_path }}"  
+                            alt="Profile image for {{ kittie_production.title }}"
+                        >
+                            <ul>
+                                <li>
+                                    <b>Format: </b>{{ kittie_production.dist_format }}
+                                </li>
+                                <li>
+                                    <b>Length: </b>{{ kittie_production.length }} mins
+                                </li>
+                                <li>
+                                    <b>Genre: </b>{% for item in kittie_production.genre %}{{ item }}{% endfor %}
+                                </li>
+                                <li>
+                                    <b>Language: </b>{{ kittie_production.language }}
+                                </li>
+                                <li>
+                                    <b>Setting: </b>{{ kittie_production.setting }}
+                                </li>
+                                <li>
+                                    <b>Budget: </b>${{ kittie_production.est_budget }}M
+                                </li>
+                            </ul>
+                    </div>
+                        <br>
+                    {% if current_user.auth_level <= 2 %}
+                        <div class="cover-buttons">
+                            <a href="#modal-{{ kittie_production.url }}" role="button" aria-label="Kittie Admin Delete Production Button" class="fa-solid fa-trash-can modal-trigger production-delete"></a>
+                                <div id="modal-{{ kittie_production.url }}" class="modal">
+                                    <div class="modal-content">
+                                        <h4 class="bold">
+                                            DELETE PRODUCTION!
+                                        </h4>
+                                        <p>
+                                            Are you sure?
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a 
+                                            href="#!" role="button" 
+                                            alt="Cancel Delete Button" 
+                                            aria-label="Cancel Delete Button" 
+                                            class="btn btn-primary left-cancel modal-close"
+                                        >
+                                            Cancel
+                                        </a>
+                                        <a 
+                                            href="{{ url_for('views.delete_production', kittie_production_id=kittie_production.id) }}" 
+                                            role="button" 
+                                            aria-label="Kittie Admin Delete Production Button" 
+                                            alt="Kittie Admin Delete Production Button" 
+                                            class="btn btn-primary final-delete"
+                                        >
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+                        </div>
+                    {% endif %}
+                        <br>
+                        <br>
+                        <br>
+                </div>
+
+                <div class="project_right">
+                    <h2 class="bold">{{ kittie_production.title }}</h2>
+                        <div class="tabcontainer">
+                            <a 
+                                class="tab" 
+                                href="{{ kittie_production.one_sheet_file_path }}" 
+                                    {% if not kittie_production.one_sheet_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} One Sheet File" 
+                                alt="One Sheet for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                One Sheet
+                            </a>
+                            <a 
+                                class="tab" 
+                                href="{{ kittie_production.pack_file_path }}" 
+                                    {% if not kittie_production.pack_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Pitch Deck File" 
+                                alt="Pitch Deck for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                Pitch Deck
+                            </a>
+                            <a 
+                                class="tab" 
+                                href="{{ kittie_production.budget_file_path }}" 
+                                    {% if not kittie_production.budget_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Budget File" 
+                                alt="Budget for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                Budget
+                            </a>
+                            <a 
+                                class="tab" 
+                                href="{{ kittie_production.treatment_file_path }}" 
+                                    {% if not kittie_production.treatment_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Treatment File" 
+                                alt="Treatment for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                Treatment
+                            </a>
+                            <a 
+                                class="tab" 
+                                href="{{ kittie_production.script_file_path }}" 
+                                    {% if not kittie_production.script_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Script File" 
+                                alt="Script for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                Script
+                            </a>
+                        </div>
+                            <br>
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
