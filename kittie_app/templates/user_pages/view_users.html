@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+  {% block title %}
+    VIEW USERS
+  {% endblock %}
+  
+  {% block extra_meta %}<meta name="robots" content="noindex">{% endblock %}
+
+    {% block extra_css %}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css">
+    {% endblock %}
+
+  {% block content %}
+
+    {% if 'flash_messages' in session %}
+      {% for message in session['flash_messages'] %}
+        <div class="alert alert-{{ message[1] }}" role="alert">
+            {{ message[0] }}
+        </div>
+      {% endfor %}
+        {% set _ = session.pop('flash_messages', None) %}
+    {% endif %}
+
+
+      <br>
+
+
+    {% for user in users %}
+
+
+      {% if user.auth_level != 1 %}
+
+
+        {% if user.password_updated == True %}
+          <div id="myDIVC" class="grid-container">
+            <div class="grid-item user-card-gold">
+              {% else %}
+                <div id="myDIVC" class="grid-container">
+                  <div class="grid-item user-card">
+                  {% endif %}
+
+                    {% if current_user.auth_level == 1 %}
+                      <a 
+                        href="{{ url_for('users.user_audit', user_id=user.id) }}"
+                        title="User audit log" 
+                        alt="User audit log"
+                      >
+                          <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                      </a>
+                    {% else %}
+                      <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                    {% endif %}
+                      
+                        {% if user.auth_level == 3 %}
+                          <form method="POST" class="form-permissions">
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+
+                            {% for each_production in kittie_productions_list %}
+                              <label for="{{ user.id }}_{{ each_production.id }}">
+                                <input
+                                  type="checkbox"
+                                  id="{{ user.id }}_{{ each_production.id }}"
+                                  name="{{ user.id }}_{{ each_production.id }}"
+                                  value="1"
+                                  {% if permission_map.get((user.id, each_production.id)) %}
+                                    checked
+                                  {% endif %}
+                                >
+                                <span style="color:black">
+                                  {{ each_production.title }}
+                                </span>
+                              </label>
+                              <br>
+                              <br>
+                            {% endfor %}
+
+                            <button type="submit" class="center">
+                              Save
+                            </button>
+                          </form>
+                        {% endif %}
+
+
+                          <br>
+                          <br>
+
+
+                        {% if current_user.auth_level != 3 and user != current_user %}
+                          <a 
+                            href="{{ url_for('users.edit_user', user_id=user.id) }}" 
+                            role="button" 
+                            aria-label="Kittie Admin View Users Page"
+                          >
+                            <i class="fa-solid fa-user-pen left-edit"></i>
+                          </a>
+                          <a 
+                            href="#modal-{{ user.id }}" 
+                            role="button" 
+                            aria-label="Kittie Admin Delete User Button" 
+                            class="modal-trigger"
+                          >
+                            <i class="fa-solid fa-trash-can right-delete"></i>
+                          </a>
+                        {% endif %}
+                          <div id="modal-{{ user.id }}" class="modal">
+                            <div class="modal-content">
+                              <h4 class="bold">
+                                DELETE USER!
+                              </h4>
+                              <p>
+                                Are you sure?
+                              </p>
+                            </div>
+                            <div class="modal-footer">
+                              <a 
+                                href="#!" 
+                                role="button" 
+                                alt="Cancel Delete Button" 
+                                aria-label="Cancel Delete Button" 
+                                class="btn btn-primary left-cancel modal-close"
+                              >
+                                Cancel
+                              </a>
+                              <a 
+                                href="{{ url_for('users.delete_user', user_id=user.id) }}" 
+                                role="button" 
+                                aria-label="Kittie Admin Delete User Button" 
+                                alt="Kittie Admin Delete User Button" 
+                                class="btn btn-primary final-delete"
+                              >
+                                Delete
+                              </a>
+                            </div>
+                          </div>
+
+                          
+            </div>
+          </div>
+        {% endif %}
+
+    {% endfor %}
+
+  {% endblock %}

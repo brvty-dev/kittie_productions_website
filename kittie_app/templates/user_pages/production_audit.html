@@ -1,0 +1,348 @@
+{% extends "base.html" %}
+
+{% block title %}
+  PRODUCTION AUDIT
+{% endblock %}
+
+{% block extra_meta %}
+  <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block content %}
+
+<div class="user_activity">
+    <h3>
+        {{ selected_production.title }} Audit Overview
+    </h3>
+        <h4>
+            Fields
+        </h4>
+            {% if production_audits %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Changed By
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                            <th>
+                                Details
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for audit in production_audits %}
+                            <tr>
+                                <td>
+                                    {{ audit.created_at.strftime('%d %b %Y %H:%M') if audit.created_at else '—' }}
+                                </td>
+                                <td>
+                                    {{ audit.actor_user.email if audit.actor_user else audit.actor_email_snapshot or '—' }}
+                                </td>
+                                <td>
+                                    {{ audit.action }}
+                                </td>
+                                <td class="left">
+                                    {% if audit.action == 'added' %}
+                                        <p>
+                                            <span class="bold">
+                                                Title:
+                                            </span>
+                                            <br>
+                                            {{ audit.new_title }}
+                                        </p>
+                                        <p>
+                                            <span class="bold">
+                                            Format:
+                                            </span>
+                                            <br>
+                                            {{ audit.new_dist_format}}
+                                        </p>
+                                        <p>
+                                            <span class="bold">
+                                            Length:
+                                            </span>
+                                            <br>
+                                            {{ audit.new_length}} mins
+                                        </p>
+                                        <p>
+                                            <span class="bold">
+                                            Genre:
+                                            </span>
+                                            <br>
+                                            {{ audit.new_genre }}
+                                        </p>
+                                        <p>
+                                            <span class="bold">
+                                            Language:
+                                            </span>
+                                            <br>
+                                            {{ audit.new_language }}
+                                        </p>
+                                        <p>
+                                            <span class="bold">
+                                            Setting:
+                                            </span>
+                                            <br>
+                                            {{ audit.new_setting }}
+                                        </p>
+                                        <p>
+                                            <span class="bold">
+                                            Est. Budget:
+                                            </span>
+                                            <br>
+                                            ${{ audit.new_est_budget }}M
+                                        </p>
+                                        {% for audit in file_audits %}
+                                            {% if audit.action == 'added' %}
+                                                <p>
+                                                    <span class="bold">
+                                                        File: 
+                                                    </span>
+                                                    <br>
+                                                        {{ audit.file_type }}
+                                                </p>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% elif audit.action == 'updated' %}
+                                        {% if audit.old_dist_format != audit.new_dist_format %}
+                                            <p>
+                                            <span class="bold">
+                                                Format:
+                                                </span>
+                                                <br>
+                                                {{ audit.old_dist_format }} → {{ audit.new_dist_format }}
+                                            </p>
+                                        {% endif %}
+                                        {% if audit.old_length != audit.new_length %}
+                                            <p>
+                                            <span class="bold">
+                                                Length:
+                                                </span>
+                                                <br>
+                                                {{ audit.old_length }} mins → {{ audit.new_length }} mins
+                                            </p>
+                                        {% endif %}
+                                        {% if audit.old_genre != audit.new_genre %}
+                                            <p>
+                                            <span class="bold">
+                                                Genre:
+                                                </span>
+                                                <br>
+                                                {{ audit.old_genre }} → {{ audit.new_genre }}
+                                            </p>
+                                        {% endif %}
+                                        {% if audit.old_language != audit.new_language %}
+                                            <p>
+                                            <span class="bold">
+                                                Language:
+                                                </span>
+                                                <br>
+                                                {{ audit.old_language }} → {{ audit.new_language }}
+                                            </p>
+                                        {% endif %}
+                                        {% if audit.old_setting != audit.new_setting %}
+                                            <p>
+                                            <span class="bold">
+                                                Setting:
+                                                </span>
+                                                <br>
+                                                {{ audit.old_setting }} → {{ audit.new_setting }}
+                                            </p>
+                                        {% endif %}
+                                        {% if audit.old_est_budget != audit.new_est_budget %}
+                                            <p>
+                                            <span class="bold">
+                                                Est. Budget:
+                                                </span>
+                                                <br>
+                                                ${{ audit.old_est_budget }}M → ${{ audit.new_est_budget }}M
+                                            </p>
+                                        {% endif %}
+                                        {% set excluded_fields = ['title', 'dist_format','length','genre','language','setting','est_budget', 'url'] %}
+                                        {% if audit.changed_fields %}
+                                            {% for field in audit.changed_fields.split(',') %}
+                                                {% set f = field.strip() %}
+                                                {% if f not in excluded_fields %}
+                                                    <p>
+                                                        <span class="bold">
+                                                            File:
+                                                        </span>
+                                                        <br>
+                                                        {{ f }}
+                                                    </p>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        <h4>
+            Files
+        </h4>
+            {% if file_audits %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Changed By
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                            <th>
+                                Details
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for audit in file_audits %}
+                            <tr>
+                                <td>
+                                    {{ audit.created_at.strftime('%d %b %Y %H:%M') if audit.created_at else '—' }}
+                                </td>
+                                <td>
+                                    {{ audit.actor_user.email if audit.actor_user else audit.actor_email_snapshot or '—' }}
+                                </td>
+                                <td>
+                                    {{ audit.action }}
+                                </td>
+                                <td class="left">
+                                    <p>
+                                        <span class="bold">
+                                            File: 
+                                        </span>
+                                            {{ audit.file_type }}
+                                    </p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>
+                    No files added.
+                </p>
+            {% endif %}
+        <h4>
+            Permissions
+        </h4>
+            {% if permission_audits %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                            <th>
+                                Changed By
+                            </th>
+                            <th>
+                                User
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for audit in permission_audits %}
+                            <tr>
+                                <td>
+                                    {{ audit.created_at.strftime('%d %b %Y %H:%M') if audit.created_at else '—' }}
+                                </td>
+                                <td>
+                                    {{ audit.action }}
+                                </td>
+                                <td>
+                                    {{ audit.admin_user.email if audit.admin_user else audit.admin_email_snapshot or '—' }}
+                                </td>
+                                <td>
+                                    {{ audit.target_user.email if audit.target_user else audit.target_email_snapshot or '—' }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>
+                    No permission audit records found.
+                </p>
+            {% endif %}
+        <h4>
+            Access
+        </h4>
+            {% if file_access_logs %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Accessed By
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                            <th>
+                                File
+                            </th>
+                            <th>
+                                Version
+                            </th>
+                            <th>
+                                Watermark Token
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in file_access_logs %}
+                            {% if log.file_type != 'cover' %}
+                                <tr>
+                                    <td>
+                                        {{ log.created_at.strftime('%d %b %Y %H:%M') if log.created_at else '—' }}
+                                    </td>
+                                    <td>
+                                        {{ log.access_user.email if log.access_user else log.user_email_snapshot or '—' }}
+                                    </td>
+                                    <td>
+                                        {{ log.action }}
+                                    </td>
+                                    <td>
+                                        {{ log.file_type }}
+                                    </td>
+                                    <td>
+                                        {{ log.file_version if log.file_version is not none else '—' }}
+                                    </td>
+                                    <td>
+                                        {{ log.watermark_token or '—' }}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>
+                    No file access records found.
+                </p>
+            {% endif %}
+</div>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}

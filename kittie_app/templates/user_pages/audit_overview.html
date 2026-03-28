@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+
+{% block title %}
+AUDIT OVERVIEW
+{% endblock %}
+
+{% block extra_meta %}
+<meta name="robots" content="noindex">
+{% endblock %}
+
+{% block content %}
+
+<div class="user_activity">
+    <h3>
+        Full Audit Log
+    </h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Created By
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                    <th>
+                        Target
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {# USER AUDITS #}
+                {% for audit in user_audits %}
+                    <tr>
+                        <td>
+                            {{ audit.created_at.strftime('%d %b %Y %H:%M') if audit.created_at else '—' }}
+                        </td>
+                        <td>
+                            {{ audit.actor_user.email if audit.actor_user else audit.actor_email_snapshot or '—' }}
+                        </td>
+                        <td>
+                            User
+                        </td>
+                        <td>
+                            {{ audit.action }}
+                        </td>
+                        <td class="left">
+                            {{ audit.target_first_name_snapshot }} {{ audit.target_last_name_snapshot }}
+                            {% if audit.old_email != audit.new_email %}
+                                <p>
+                                    <span class="bold">
+                                        Email:
+                                    </span>
+                                    <br>
+                                    {{ audit.old_email or '—' }} → {{ audit.new_email or '—' }}
+                                </p>
+                            {% endif %}
+                            {% if audit.old_first_name != audit.new_first_name %}
+                                <p>
+                                    <span class="bold">
+                                        First Name:
+                                    </span>
+                                    <br>
+                                    {{ audit.old_first_name or '—' }} → {{ audit.new_first_name or '—' }}
+                                </p>
+                            {% endif %}
+                            {% if audit.old_last_name != audit.new_last_name %}
+                                <p>
+                                    <span class="bold">
+                                        Last Name:
+                                    </span>
+                                    <br>
+                                    {{ audit.old_last_name or '—' }} → {{ audit.new_last_name or '—' }}
+                                </p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {# PRODUCTION AUDITS #}
+                {% for audit in production_audits %}
+                    <tr>
+                        <td>
+                            {{ audit.created_at.strftime('%d %b %Y %H:%M') if audit.created_at else '—' }}
+                        </td>
+                        <td>
+                            {{ audit.actor_user.email if audit.actor_user else audit.actor_email_snapshot or '—' }}
+                        </td>
+                        <td>
+                            Production
+                        </td>
+                        <td>
+                            {{ audit.production.title if audit.production else audit.production_title_snapshot or '—' }}: {{ audit.action }}
+                        </td>
+                        <td class="left">
+                            {% if audit.old_dist_format != audit.new_dist_format %}
+                                <p>
+                                    <span class="bold">
+                                        Format:
+                                    </span>
+                                    <br>
+                                    {{ audit.old_dist_format or '—' }} → {{ audit.new_dist_format or '—' }}
+                                </p>
+                            {% endif %}
+                            {% if audit.old_length != audit.new_length %}
+                                <p>
+                                    <span class="bold">
+                                        Length:
+                                    </span>
+                                    <br>
+                                    {{ audit.old_length or '—' }} mins → {{ audit.new_length or '—' }} mins
+                                </p>
+                            {% endif %}
+                            {% if audit.old_genre != audit.new_genre %}
+                                <p>
+                                    <span class="bold">
+                                        Genre:
+                                    </span>
+                                    <br>
+                                    {{ audit.old_genre or '—' }} → {{ audit.new_genre or '—' }}
+                                </p>
+                            {% endif %}
+                            {% if audit.old_language != audit.new_language %}
+                                <p>
+                                    <span class="bold">
+                                        Language:
+                                    </span>
+                                    <br>
+                                    {{ audit.old_language or '—' }} → {{ audit.new_language or '—' }}
+                                </p>
+                            {% endif %}
+                            {% if audit.old_setting != audit.new_setting %}
+                                <p>
+                                    <span class="bold">
+                                        Setting:
+                                    </span>
+                                    <br>
+                                    {{ audit.old_setting or '—' }} → {{ audit.new_setting or '—' }}
+                                </p>
+                            {% endif %}
+                            {% if audit.old_est_budget != audit.new_est_budget %}
+                                <p>
+                                    <span class="bold">
+                                        Est Budget:
+                                    </span>
+                                    <br>
+                                    ${{ audit.old_est_budget or '—' }}M → ${{ audit.new_est_budget or '—' }}M
+                                </p>
+                            {% endif %}
+                            {% set excluded_fields = ['title', 'dist_format','length','genre','language','setting','est_budget', 'url'] %}
+                            {% if audit.changed_fields %}
+                                {% for field in audit.changed_fields.split(',') %}
+                                    {% set f = field.strip() %}
+                                    {% if f not in excluded_fields %}
+                                        <p>
+                                            <span class="bold">
+                                                File:
+                                            </span>
+                                            <br>
+                                            {{ f }}
+                                        </p>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {# PERMISSION AUDITS #}
+                {% for audit in permission_audits %}
+                    <tr>
+                        <td>
+                            {{ audit.created_at.strftime('%d %b %Y %H:%M') if audit.created_at else '—' }}
+                        </td>
+                        <td>
+                            {{ audit.admin_user.email if audit.admin_user else audit.admin_email_snapshot or '—' }}
+                        </td>
+                        <td>
+                            Permission
+                        </td>
+                        <td>
+                            {{ audit.production.title if audit.production else audit.production_title_snapshot or '—' }}: {{ audit.action }}
+                        </td>
+                        <td class="left">
+                            {{ audit.target_user.first_name }} {{ audit.target_user.last_name }}
+                            {{ audit.target_user.email if audit.target_user else audit.target_email_snapshot or '—' }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {# FILE AUDITS #}
+                {% for audit in file_audits %}
+                    <tr>
+                        <td>
+                            {{ audit.created_at.strftime('%d %b %Y %H:%M') if audit.created_at else '—' }}
+                        </td>
+                        <td>
+                            {{ audit.actor_user.email if audit.actor_user else audit.actor_email_snapshot or '—' }}
+                        </td>
+                        <td>
+                            File
+                        </td>
+                        <td>
+                            {{ audit.action }}
+                        </td>
+                        <td class="left">
+                            {{ audit.production.title if audit.production else audit.production_title_snapshot or '—' }}
+                            {{ audit.file_type.replace('_',' ').title() if audit.file_type else '—' }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {# FILE ACCESS LOGS #}
+                {% for log in file_access_logs if 'cover' not in log.file_type|lower %}
+                    <tr>
+                        <td>
+                            {{ log.created_at.strftime('%d %b %Y %H:%M') if log.created_at else '—' }}
+                        </td>
+                        <td>
+                            {{ log.access_user.email if log.access_user else log.user_email_snapshot or '—' }}
+                        </td>
+                        <td>
+                            Access
+                        </td>
+                        <td>
+                            {{ log.action }}
+                        </td>
+                        <td class="left">
+                            {{ log.production.title if log.production else log.production_title_snapshot or '—' }}
+                            {{ log.file_type.replace('_',' ').title() if log.file_type else '—' }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</div>
+<br>
+<br>
+<br>
+{% endblock %}

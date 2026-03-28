@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /cdn-cgi/
+Disallow: /*cookies*
+Disallow: /*logout*
+Disallow: /*add*
+Disallow: /*edit*
+Disallow: /*delete*
+Disallow: /*audit*
+Disallow: /*view*
+Sitemap: https://kittieproductions.co.uk/sitemap.xml

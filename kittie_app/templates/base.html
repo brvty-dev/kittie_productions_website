@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+      <title>{% block title %}{% endblock %}</title>
+
+        <meta name="description" content="Creators of film and TV content.">
+        <meta name="keywords" content="Kittie Productions, kittie, UK production companies">
+        
+        <meta name="msvalidate.01" content="2B0EA5827A3D27F68CAD78DD825636F6">
+        
+        {% block canon %}
+        {% endblock %}
+        
+        {% block extra_meta %}
+        {% endblock %}
+
+          <meta property="og:title" content="Kittie Productions">
+          <meta property="og:url" content="https://kittieproductions.co.uk">
+          <meta property="og:description" content="Creators of film and TV content.">
+          <meta property="og:image" content="https://kittieproductions.co.uk/static/images/kittie_logo_socials.jpg">
+          <meta property="og:site_name" content="Kittie Productions">
+          <meta property="og:locale" content="en_GB">
+          <meta property="og:image:type" content="image/jpg">
+          <meta property="og:type" content="website">
+          
+          <meta name="twitter:title" content="Kittie Productions">
+          <meta name="twitter:description" content="Creators of film and TV content.">
+          <meta name="twitter:card" content="summary_large_image">
+          <meta name="twitter:image" content="https://kittieproductions.co.uk/static/images/kittie_logo_socials.jpg">
+          <meta name="twitter:image:alt" content="Kittie Productions">
+          <meta name="twitter:site" content="@KittieFilmandTV">
+            
+            <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
+            <link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}" type="image/x-icon">
+            <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.jpg') }}">
+            <link rel="apple-touch-icon" sizes="57x57" href="{{ url_for('static', filename='icons/apple-touch-icon-57x57.jpg') }}">
+            <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='icons/apple-touch-icon-72x72.jpg') }}">
+            <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='icons/apple-touch-icon-76x76.jpg') }}">
+            <link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='icons/apple-touch-icon-114x114.jpg') }}">
+            <link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='icons/apple-touch-icon-120x120.jpg') }}">
+            <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='icons/apple-touch-icon-144x144.jpg') }}">
+            <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='icons/apple-touch-icon-152x152.jpg') }}">
+            <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='icons/apple-touch-icon-180x180.jpg') }}">
+
+              {% block extra_css %}
+              {% endblock %}
+              <link rel="preconnect" href="https://fonts.googleapis.com">
+              <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+              <link href="https://fonts.googleapis.com/css2?family=Lexend+Giga&display=swap" rel="stylesheet">
+              <link href="https://fonts.googleapis.com/css2?family=Oregano:ital@1&display=swap" rel="stylesheet">
+              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+              <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+
+                <script src="https://kit.fontawesome.com/04887afb98.js" crossorigin="anonymous"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </head>
+  <body>
+    <header>
+
+      <div id="myDIVI" class="login_button">
+
+
+
+        {% if current_user.is_authenticated %}
+          <a id="logout" aria-label="Logout of Kittie" href="{{ url_for('auth.logout', user_id=current_user.id) }}">
+            <i class="fa-solid fa-circle-user"></i> Logout
+          </a>
+          {% if current_user.auth_level <= 2 %}
+            <a href="{{ url_for('users.view_users', user_id=current_user.id) }}" aria-label="Kittie Admin View Users Page">
+              <i class="fa-solid fa-users"></i> Manage Users
+            </a>
+            <a href="{{ url_for('prod.add_production', user_id=current_user.id) }}" aria-label="Kittie Admin Add Production Page">
+              <i class="fa-solid fa-clapperboard"></i> Add Production
+            </a>
+          {% endif %}
+          {% if current_user.auth_level == 1 and request.endpoint == 'prod.kittie_productions' %}
+            <a href="{{ url_for('users.audit_overview') }}" aria-label="Kittie Admin Audit Overview Page">
+              <i class="fa-solid fa-database"></i> All Audits
+            </a>
+          {% endif %}
+        {% endif %}
+
+
+
+        {% if request.path == url_for('users.view_users') %}
+          <a href="{{ url_for('users.add_user', user_id=current_user.id) }}" aria-label="Kittie Admin Add User Page">
+            <i class="fa-solid fa-user-plus"></i> ADD USER
+          </a>
+        {% endif %}
+
+        {% if request.path == url_for('prod.kittie_production_details', url=kittie_production.url) %}
+          <a href="{{ url_for('prod.kittie_productions', user_id=current_user.id) }}" class="right">
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </a>
+        {% elif 'audit' in request.path or 'website' in request.path or 'legal' in request.path or 'workplace' in request.path or 'impact' in request.path %}
+          <a onclick="goBack('{{ referrer }}')" class="right">
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </a>
+        {% elif request.path == url_for('users.view_users') %}
+          <div class="sort-box">
+            <form id="sort-form" action="{{ url_for('users.view_users') }}" method="GET">
+              <select class="browser-default" name="sort_option" onchange="this.form.submit()">
+                <option value="">
+                  Sort
+                </option>
+                <option value="name_asc">
+                  Name (A-Z)
+                </option>
+                <option value="name_desc">
+                  Name (Z-A)
+                </option>
+              </select>
+            </form>
+          </div>
+        {% elif request.path == url_for('prod.kittie_productions') and current_user.auth_level <= 3 %}
+          <form action="{{ url_for('prod.kittie_productions', user_id=current_user.id) }}" method="GET" class="filter-box">
+            <label class="filter-label" for="filter-box">
+              Filter by:
+            </label>
+              <select id="filter-box" name="filter-box" class="browser-default">
+                  <option class="browser-default" value="all">
+                    All
+                  </option>
+                  <option class="browser-default" value="Feature Film">
+                    Feature Film
+                  </option>
+                  <option class="browser-default" value="Television Drama">
+                    Television
+                  </option>
+                  <option class="browser-default" value="Co-production">
+                    Co-production
+                  </option>
+                  <option class="browser-default" value="Action">
+                    Genre: Action
+                  </option>
+                  <option class="browser-default" value="Biopic">
+                    Genre: Biopic
+                  </option>
+                  <option class="browser-default" value="Comedy">
+                    Genre: Comedy
+                  </option>
+                  <option class="browser-default" value="Crime">
+                    Genre: Crime
+                  </option>
+                  <option class="browser-default" value="Period">
+                    Genre: Historic
+                  </option>
+                  <option class="browser-default" value="Horror">
+                    Genre: Horror
+                  </option>
+                  <option class="browser-default" value="Romance">
+                    Genre: Romance
+                  </option>
+                  <option class="browser-default" value="Thriller">
+                    Genre: Thriller
+                  </option>
+              </select>
+                <button type="button" class="filter-box" type="submit" id="go">
+                  Go
+                </button>
+          </form>
+        {% else %}
+        {% endif %}
+
+
+
+      </div>
+
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash {{ category }}" role="alert">
+                {{ message }}
+                <button type="button" class="close-alert">
+                  <span aria-hidden="true">
+                    &times;
+                  </span>
+                  <span class="sr-only">
+                    Close
+                  </span>
+                </button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+          <h1 style="position:absolute; left:-9999px;color: #000000;">Kittie Productions | Content creation for film and TV</h1>
+
+    </header>
+
+    <main>
+
+      {% block content %}
+      
+      {% endblock %}
+
+    </main>
+
+    <footer>
+
+      {% if not (cookie_accepted or cookie_rejected) and not message_viewed_closed %}
+        <!-- Cookie alert -->
+          <div class="cookie-alert">
+            <p> 
+              Kittie Productions uses cookies to ensure you get the best experience on our website.
+            </p>
+              <br>
+              <br>
+            <a href="{{ url_for('cooks.accept_cookies') }}" class="accept show">
+              Accept All
+            </a>
+            <a href="{{ url_for('cooks.reject_cookies') }}" class="reject">
+              Essential Only
+            </a>
+              <br>
+              <br>
+            <p>
+              Want to know more? View our <a class="policy" href="{{ url_for('corp.website_terms_of_use') }}#cookie_policy">Cookie Policy</a>.
+            </p>
+              <br>
+              <br>
+          </div>
+      {% endif %}
+
+      {% if cookie_accepted and not message_viewed_closed %}
+        <!-- Cookie alert -->
+          <div class="cookie-alert">
+            <p>
+              You have accepted all cookies. You can change this setting 
+              <a class="policy" href="{{ url_for('corp.website_terms_of_use') }}#update">
+                here</a>.
+            </p>
+              <br>
+                <button type="button" class="hide_alert">
+                  Close Message
+                </button>
+              <br>
+              <br>
+              <br>
+          </div>
+      {% endif %}
+
+      {% if cookie_rejected and not message_viewed_closed %}
+        <!-- Cookie alert -->
+          <div class="cookie-alert">
+            <p>
+              You have accepted essential cookies only. You can change this setting 
+              <a class="policy" href="{{ url_for('corp.website_terms_of_use') }}#update">
+                here</a>.
+            </p>
+              <br>
+                <button type="button" class="hide_alert">
+                  Close Message
+                </button>
+              <br>
+              <br>
+              <br>
+          </div>
+      {% endif %}
+
+      {% if (cookie_accepted or cookie_rejected) and message_viewed_closed %}
+      {% endif %}
+
+
+
+      <div class="index_links bold">
+          
+        {% if request.path == url_for('prod.kittie_productions') and current_user.auth_level == 3 %}
+        <p class="helper">Click covers <i class="fa-solid fa-angles-up fa-bounce"></i></p>
+        {% endif %}
+        
+
+        <a href="{{ url_for('views.index') }}" aria-label="Kittie Home Page">
+          <img src="{{ url_for('static', filename='icons/apple-touch-icon-180x180.jpg') }}" alt="Kittie Productions Home Page Link">
+        </a>
+
+        <div class="corporate_menu">
+
+          <button type="button" class="corporate_link" aria-label="Kittie's Corporate Pages">
+            Corporate
+          </button>
+
+            <div class="corporate_menu_content">
+
+                <div class="website_column">
+                  <a href="{{ url_for('corp.website_terms_of_use') }}" class="corporate_head">
+                    WEBSITE
+                  </a>
+                    <a href="{{ url_for('corp.website_terms_of_use') }}#user_agreement">User Agreement</a>
+                    <a href="{{ url_for('corp.website_terms_of_use') }}#privacy_notice">Privacy</a>
+                    <a href="{{ url_for('corp.website_terms_of_use') }}#cookie_policy">Cookies</a>
+                    <a href="{{ url_for('corp.website_terms_of_use') }}#accessibility">Accessibility</a>
+                {% if current_user.is_authenticated %}
+                <br>
+                  <a href="{{ url_for('corp.legal_obligations') }}" class="corporate_head">
+                    LEGAL
+                  </a>
+                    <a href="{{ url_for('corp.legal_obligations') }}#modern_slavery">Modern Slavery</a>
+                    <a href="{{ url_for('corp.legal_obligations') }}#anti_bribery">Anti-Bribery</a>
+                    <a href="{{ url_for('corp.legal_obligations') }}#sustainability">Sustainability</a>
+                    <a href="{{ url_for('corp.legal_obligations') }}#whistleblowing">Whistleblowing</a>
+                {% else %}
+                </div>
+                <div class="workplace_column">
+                  <a href="{{ url_for('corp.our_impact') }}" class="corporate_head">
+                    IMPACT
+                  </a>
+                    <a href="{{ url_for('corp.our_impact') }}#diversity_and_inclusion">Diversity & Inclusion</a>
+                    <a href="{{ url_for('corp.our_impact') }}#sustainability">Sustainability</a>
+                    <a href="{{ url_for('corp.our_impact') }}#digital_ethics">Digital Ethics</a>
+                {% endif %}
+                </div>
+                {% if current_user.is_authenticated %}
+                <div class="workplace_column">
+                  <a href="{{ url_for('corp.workplace_policies') }}" class="corporate_head">
+                    WORKPLACE
+                  </a>
+                    <a href="{{ url_for('corp.workplace_policies') }}#code_of_conduct">Code of Conduct</a>
+                    <a href="{{ url_for('corp.workplace_policies') }}#freelancers">Freelancers</a>
+                    <a href="{{ url_for('corp.workplace_policies') }}#working_hours_and_welfare">Working Hours and Welfare</a>
+                    <a href="{{ url_for('corp.workplace_policies') }}#data_security">Data Security</a>
+                    <a href="{{ url_for('corp.workplace_policies') }}#digital_ethics">Digital Ethics</a>
+                    <a href="{{ url_for('corp.workplace_policies') }}#intellectual_property">Intellectual Property</a>
+                    <a href="{{ url_for('corp.workplace_policies') }}#equal_opportunities">Equal Opportunities</a>
+                    <a href="{{ url_for('corp.workplace_policies') }}#diversity_and_inclusion">Diversity & Inclusion</a>
+                    <a href="{{ url_for('corp.workplace_policies') }}#safeguarding">Safeguarding</a>
+                    <a href="{{ url_for('corp.workplace_policies') }}#health_and_safety">Health & Safety</a>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+
+          {% if current_user.is_authenticated %}
+            <a href="{{ url_for('prod.kittie_productions', user_id=current_user.id) }}" aria-label="Kittie's Production Details Pages">
+              Productions
+            </a>
+          {% else %}
+            <a href="{{ url_for('auth.login', user_id=current_user.id) }}" id="login" aria-label="Log-in to Kittie">
+              Productions
+            </a>
+          {% endif %}
+
+
+
+        <a href="{{ url_for('views.gallery') }}" aria-label="Kittie Gallery Page">
+          Gallery
+        </a>
+        <a href="{{ url_for('views.about') }}" aria-label="Kittie About Page">
+          About
+        </a>
+        
+      </div>
+      <a  style="position:absolute; left:-9999px;color: #155b5b;" target="_blank" href="https://brvty.online/" aria-label="A link to BRVTY Online web services">
+        <h2>
+            Website designed by <span class="lexend-giga-logo">BRVTY</span> Online web services.
+        </h2>
+      </a>
+    </footer>
+
+      <script src="{{ url_for('static', filename='js/flashes.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/cookie_alert.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/corporate_menu.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/back_button.js') }}"></script>
+
+        {% if request.path == url_for('users.view_users') or request.path == url_for('prod.kittie_production_details', url=kittie_production.url) %}
+          <script src="{{ url_for('static', filename='js/modal.js') }}"></script>
+        {% endif %}
+
+        {% if request.endpoint in ['prod.add_production', 'prod.edit_production'] %}
+          <script src="{{ url_for('static', filename='js/select.js') }}"></script>
+        {% endif %}
+
+        {% if request.endpoint == 'prod.edit_production' %}
+          <script src="{{ url_for('static', filename='js/file_remove.js') }}"></script>
+        {% endif %}
+
+        {% if request.endpoint == 'users.audit_overview' %}
+          <script src="{{ url_for('static', filename='js/table_sort.js') }}"></script>
+        {% endif %}
+
+        {% if request.path == url_for('corp.website_terms_of_use') %}
+          <script src="{{ url_for('static', filename='js/cookie_preference.js') }}"></script>
+        {% endif %}
+
+  </body>
+</html>

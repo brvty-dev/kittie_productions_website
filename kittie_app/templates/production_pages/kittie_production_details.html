@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+
+  {% block title %}
+    {{ kittie_production.title }}
+  {% endblock %}
+  
+  {% block extra_meta %}<meta name="robots" content="noindex">{% endblock %}
+
+    {% block extra_css %}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css">
+    {% endblock %}
+
+  {% block content %}
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+        <div class="project">
+            <div class="project_r-container">
+                <div class="project_left">
+                    <div class="cover">
+                        {% if kittie_production.cover_file_path %}
+                        <img 
+                            src="{{ url_for('prod.production_file', prod_url=kittie_production.url, file_type='cover', version=kittie_production.cover_file_version) }}" 
+                            alt="{{ kittie_production.title }} cover image"
+                        >
+                        {% endif %}
+                            <ul>
+                                <li>
+                                    <b>Format: </b>{{ kittie_production.dist_format }}
+                                </li>
+                                <li>
+                                    <b>Length: </b>{{ kittie_production.length }} mins
+                                </li>
+                                <li>
+                                    <b>Genre: </b>{% for item in kittie_production.genre %}{{ item }}{% endfor %}
+                                </li>
+                                <li>
+                                    <b>Language: </b>{{ kittie_production.language }}
+                                </li>
+                                <li>
+                                    <b>Setting: </b>{{ kittie_production.setting }}
+                                </li>
+                                <li>
+                                    <b>Budget: </b>${{ kittie_production.est_budget }}M
+                                </li>
+                            </ul>
+                    </div>
+                        <br>
+                    {% if current_user.auth_level != 3 %}
+                        <div class="cover-buttons">
+                            <a  href="{{ url_for('prod.edit_production', kittie_production_id=kittie_production.id) }}" 
+                                role="button" 
+                                aria-label="Kittie Admin Edit Production Button" 
+                                class="fa-solid fa-pen production-edit">
+                            </a>
+                            <a  
+                                href="#modal-{{ kittie_production.url }}" 
+                                role="button" 
+                                aria-label="Kittie Admin Delete Production Button" 
+                                class="fa-solid fa-trash-can modal-trigger production-delete">
+                            </a>
+                                <div id="modal-{{ kittie_production.url }}" class="modal">
+                                    <div class="modal-content">
+                                        <h4 class="bold">
+                                            DELETE PRODUCTION!
+                                        </h4>
+                                        <p>
+                                            Are you sure?
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a 
+                                            href="#!" role="button" 
+                                            alt="Cancel Delete Button" 
+                                            aria-label="Cancel Delete Button" 
+                                            class="btn left-cancel modal-close"
+                                        >
+                                            Cancel
+                                        </a>
+                                        <a 
+                                            href="{{ url_for('prod.delete_production', kittie_production_id=kittie_production.id) }}" 
+                                            role="button" 
+                                            aria-label="Kittie Admin Delete Production Button" 
+                                            alt="Kittie Admin Delete Production Button" 
+                                            class="btn final-delete"
+                                        >
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+                        </div>
+                    {% endif %}
+                        <br>
+                        <br>
+                        <br>
+                </div>
+
+                <div class="project_right">
+                    {% if current_user.auth_level == 1 %}
+                        <a 
+                            href="{{ url_for('users.production_audit', kittie_production_id=kittie_production.id) }}" 
+                            title="{{ kittie_production.title }} audit log" 
+                            alt="{{ kittie_production.title }} audit log"
+                        >
+                            <h2 class="bold">{{ kittie_production.title }}</h2>
+                        </a>
+                    {% else %}
+                            <h2 class="bold">{{ kittie_production.title }}</h2>
+                    {% endif %}
+                        <div class="tabcontainer">
+                            {% if kittie_production.one_sheet_file_path %}
+                            <div class="file_container">
+                            <a 
+                                class="tab" 
+                                href="{{ url_for('prod.production_file', prod_url=kittie_production.url, file_type='one_sheet', version=kittie_production.one_sheet_file_version) }}" 
+                                    {% if not kittie_production.one_sheet_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} One Sheet File" 
+                                alt="One Sheet for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                One Sheet
+                            </a>
+                            <a 
+                                class="download_tab" 
+                                href="{{ url_for('prod.download_production_file', prod_url=kittie_production.url, file_type='one_sheet', version=kittie_production.one_sheet_file_version) }}" 
+                                    {% if not kittie_production.one_sheet_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} One Sheet File" 
+                                alt="One Sheet for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                <i class="fa-solid fa-file-arrow-down"></i>  Download One Sheet
+                            </a>
+                            </div>
+                            {% endif %}
+                            {% if kittie_production.two_sheet_file_path %}
+                            <div class="file_container">
+                            <a 
+                                class="tab" 
+                                href="{{ url_for('prod.production_file', prod_url=kittie_production.url, file_type='two_sheet', version=kittie_production.two_sheet_file_version) }}" 
+                                    {% if not kittie_production.two_sheet_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Two Sheet File" 
+                                alt="Two Sheet for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                Two Sheet
+                            </a>
+                            <a 
+                                class="download_tab" 
+                                href="{{ url_for('prod.download_production_file', prod_url=kittie_production.url, file_type='two_sheet', version=kittie_production.two_sheet_file_version) }}" 
+                                    {% if not kittie_production.two_sheet_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Two Sheet File" 
+                                alt="Two Sheet for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                <i class="fa-solid fa-file-arrow-down"></i>  Download Two Sheet
+                            </a>
+                            </div>
+                            {% endif %}
+                            {% if kittie_production.pitch_deck_file_path %}
+                            <div class="file_container">
+                            <a 
+                                class="tab" 
+                                href="{{ url_for('prod.production_file', prod_url=kittie_production.url, file_type='pitch_deck', version=kittie_production.pitch_deck_file_version) }}" 
+                                    {% if not kittie_production.pitch_deck_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Pitch Deck File" 
+                                alt="Pitch Deck for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                Pitch Deck
+                            </a>
+                            <a 
+                                class="download_tab" 
+                                href="{{ url_for('prod.download_production_file', prod_url=kittie_production.url, file_type='pitch_deck', version=kittie_production.pitch_deck_file_version) }}" 
+                                    {% if not kittie_production.pitch_deck_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Pitch Deck File" 
+                                alt="Pitch Deck for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                <i class="fa-solid fa-file-arrow-down"></i>  Download Pitch Deck
+                            </a>
+                            </div>
+                            {% endif %}
+                            {% if kittie_production.budget_file_path %}
+                            <div class="file_container">
+                            <a 
+                                class="tab" 
+                                href="{{ url_for('prod.production_file', prod_url=kittie_production.url, file_type='budget', version=kittie_production.budget_file_version) }}" 
+                                    {% if not kittie_production.budget_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Budget File" 
+                                alt="Budget for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                Budget
+                            </a>
+                            <a 
+                                class="download_tab" 
+                                href="{{ url_for('prod.download_production_file', prod_url=kittie_production.url, file_type='budget', version=kittie_production.budget_file_version) }}" 
+                                    {% if not kittie_production.budget_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Budget File" 
+                                alt="Budget for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                <i class="fa-solid fa-file-arrow-down"></i>  Download Budget
+                            </a>
+                            </div>
+                            {% endif %}
+                            {% if kittie_production.treatment_file_path %}
+                            <div class="file_container">
+                            <a 
+                                class="tab" 
+                                href="{{ url_for('prod.production_file', prod_url=kittie_production.url, file_type='treatment', version=kittie_production.treatment_file_version) }}" 
+                                    {% if not kittie_production.treatment_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Treatment File" 
+                                alt="Treatment for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                Treatment
+                            </a>
+                            <a 
+                                class="download_tab" 
+                                href="{{ url_for('prod.download_production_file', prod_url=kittie_production.url, file_type='treatment', version=kittie_production.treatment_file_version) }}" 
+                                    {% if not kittie_production.treatment_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Treatment File" 
+                                alt="Treatment for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                <i class="fa-solid fa-file-arrow-down"></i>  Download Treatment
+                            </a>
+                            </div>
+                            {% endif %}
+                            {% if kittie_production.script_file_path %}
+                            <div class="file_container">
+                            <a 
+                                class="tab" 
+                                href="{{ url_for('prod.production_file', prod_url=kittie_production.url, file_type='script', version=kittie_production.script_file_version) }}" 
+                                    {% if not kittie_production.script_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Script File" 
+                                alt="Script for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                Script
+                            </a>
+                            <a 
+                                class="download_tab" 
+                                href="{{ url_for('prod.download_production_file', prod_url=kittie_production.url, file_type='script', version=kittie_production.script_file_version) }}" 
+                                    {% if not kittie_production.script_file_path %}
+                                        style="display:none;"
+                                    {% endif %} 
+                                title="{{ kittie_production.title }} Script File" 
+                                alt="Script for {{ kittie_production.title }}" 
+                                target="_blank"
+                            >
+                                <i class="fa-solid fa-file-arrow-down"></i>  Download Script
+                            </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                            <br>
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}

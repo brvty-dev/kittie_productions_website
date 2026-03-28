@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+  {% block title %}
+    KITTIE'S PRODUCTIONS
+  {% endblock %}
+  
+  {% block extra_meta %}<meta name="robots" content="noindex">{% endblock %}
+
+  {% block content %}
+    <br>
+      {% for kittie_production in kittie_productions | sort(attribute="title") %}
+        {% if current_user.auth_level != 3 %}
+          <div id="myDIVC" class="grid-container">
+            <div class="grid-item">
+              <div class="cover">
+                <a href="{{ url_for('prod.kittie_production_details', url=kittie_production.url) }}">
+                  <img 
+                    src="{{ url_for('prod.production_file', prod_url=kittie_production.url, file_type='cover', version=kittie_production.cover_file_version) }}" 
+                    alt="{{ kittie_production.title }} cover image" 
+                    style="width: 100%"
+                  >
+                  </a>
+              </div>
+            </div>
+          </div>
+        {% else %}
+        {% for permission in permissions %}
+          {% if permission.user_id == user.id and permission.kittie_production_database_id == kittie_production.id and permission.can_view %}
+            <div id="myDIVC" class="grid-container">
+              <div class="grid-item">
+                <div class="cover">
+                  <a href="{{ url_for('prod.kittie_production_details', url=kittie_production.url) }}">
+                    <img 
+                      src="{{ url_for('prod.production_file', prod_url=kittie_production.url, file_type='cover', version=kittie_production.cover_file_version) }}" 
+                      alt="{{ kittie_production.title }} cover image" 
+                      style="width: 100%"
+                  >
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+
+ {% endblock %}

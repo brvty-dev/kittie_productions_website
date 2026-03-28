@@ -1,0 +1,424 @@
+{% extends "base.html" %}
+
+  {% block title %}
+    EDIT PRODUCTION
+  {% endblock %}
+  
+    {% block extra_meta %}<meta name="robots" content="noindex">{% endblock %}
+
+    {% block extra_css %}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css">
+    {% endblock %}
+
+  {% block content %}
+
+  {% set selected_genres = (kittie_production.genre or '').split(', ') %}
+  {% set selected_languages = (kittie_production.language or '').split(', ') %}
+
+    <div class="add-production-card">
+      <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <h3>
+          Edit {{ kittie_production.title }}
+        </h3>
+        <div class="input-field">
+          <select id="distFormat" name="distFormat">
+            <option value="" disabled>
+              Choose the format
+            </option>
+            <option value="Feature Film" {% if kittie_production.dist_format == "Feature Film" %}selected{% endif %}>
+              Feature Film
+            </option>
+            <option value="Short Film" {% if kittie_production.dist_format == "Short Film" %}selected{% endif %}>
+              Short Film
+            </option>
+            <option value="Television Drama" {% if kittie_production.dist_format == "Television Drama" %}selected{% endif %}>
+              Television Drama
+            </option>
+            <option value="Documentary" {% if kittie_production.dist_format == "Documentary" %}selected{% endif %}>
+              Documentary
+            </option>
+            <option value="Co-production" {% if kittie_production.dist_format == "Co-production" %}selected{% endif %}>
+              Co-production
+            </option>
+          </select>
+            <label for="distFormat" class="sr-only">
+              Format:
+            </label>
+        </div>
+        <div class="input-field">
+          <select id="length" name="length">
+            <option value="" disabled selected>
+              Choose the length
+            </option>
+            <option value="30" {% if kittie_production.length == "30" %}selected{% endif %}>
+              30 mins
+            </option>
+            <option value="45" {% if kittie_production.length == "45" %}selected{% endif %}>
+              45 mins
+            </option>
+            <option value="60" {% if kittie_production.length == "60" %}selected{% endif %}>
+              60 mins
+            </option>
+            <option value="80" {% if kittie_production.length == "80" %}selected{% endif %}>
+              80 mins
+            </option>
+            <option value="90" {% if kittie_production.length == "90" %}selected{% endif %}>
+              90 mins
+            </option>
+            <option value="100" {% if kittie_production.length == "100" %}selected{% endif %}>
+              100 mins
+            </option>
+            <option value="110" {% if kittie_production.length == "110" %}selected{% endif %}>
+              110 mins
+            </option>
+            <option value="120" {% if kittie_production.length == "120" %}selected{% endif %}>
+              120 mins
+            </option>
+            <option value="120+" {% if kittie_production.length == "120+" %}selected{% endif %}>
+              120+ mins
+            </option>
+          </select>
+            <label for="length" class="sr-only">
+              Length:
+            </label>
+        </div>
+        <div class="input-field">
+          <select id="genre" name="genre" multiple>
+            <option value="" disabled selected>
+              Choose the genre (Select all that apply)
+            </option>
+            <option value="Action & Adventure" {% if "Action & Adventure" in selected_genres %}selected{% endif %}>
+              Action & Adventure
+            </option>
+            <option value="Animation" {% if "Animation" in selected_genres %}selected{% endif %}>
+              Animation
+            </option>
+            <option value="Biopic" {% if "Biopic" in selected_genres %}selected{% endif %}>
+              Biopic
+            </option>
+            <option value="Childrens" {% if "Childrens" in selected_genres %}selected{% endif %}>
+              Childrens
+            </option>
+            <option value="Comedy" {% if "Comedy" in selected_genres %}selected{% endif %}>
+              Comedy
+            </option>
+            <option value="Crime" {% if "Crime" in selected_genres %}selected{% endif %}>
+              Crime
+            </option>
+            <option value="Drama" {% if "Drama" in selected_genres %}selected{% endif %}>
+              Drama
+            </option>
+            <option value="Fantasy" {% if "Fantasy" in selected_genres %}selected{% endif %}>
+              Fantasy
+            </option>
+            <option value="Historic" {% if "Historic" in selected_genres %}selected{% endif %}>
+              Historic
+            </option>
+            <option value="Horror" {% if "Horror" in selected_genres %}selected{% endif %}>
+              Horror
+            </option>
+            <option value="Musical" {% if "Musical" in selected_genres %}selected{% endif %}>
+              Musical
+            </option>
+            <option value="Romance" {% if "Romance" in selected_genres %}selected{% endif %}>
+              Romance
+            </option>
+            <option value="Sci-fi" {% if "Sci-fi" in selected_genres %}selected{% endif %}>
+              Sci-fi
+            </option>
+            <option value="Thriller" {% if "Thriller" in selected_genres %}selected{% endif %}>
+              Thriller
+            </option>
+            <option value="War" {% if "War" in selected_genres %}selected{% endif %}>
+              War
+            </option>
+            <option value="Western" {% if "Western" in selected_genres %}selected{% endif %}>
+              Western
+            </option>
+          </select>
+            <label for="genre" class="sr-only">
+              Genre:
+            </label>
+        </div>
+        <div class="input-field">
+          <select id="language" name="language" multiple>
+            <option value="" disabled selected>
+              Choose the language (Select all that apply)
+            </option>
+            <option value="Arabic" {% if "Arabic" in selected_languages %}selected{% endif %}>
+              Arabic
+            </option>
+            <option value="English" {% if "English" in selected_languages %}selected{% endif %}>
+              English
+            </option>
+            <option value="French" {% if "French" in selected_languages %}selected{% endif %}>
+              French
+            </option>
+            <option value="German" {% if "German" in selected_languages %}selected{% endif %}>
+              German
+            </option>
+            <option value="Hindi" {% if "Hindi" in selected_languages %}selected{% endif %}>
+              Hindi
+            </option>
+            <option value="Italian" {% if "Italian" in selected_languages %}selected{% endif %}>
+              Italian
+            </option>
+            <option value="Japanese" {% if "Japanese" in selected_languages %}selected{% endif %}>
+              Japanese
+            </option>
+            <option value="Korean" {% if "Korean" in selected_languages %}selected{% endif %}>
+              Korean
+            </option>
+            <option value="Mandarin" {% if "Mandarin" in selected_languages %}selected{% endif %}>
+              Mandarin
+            </option>
+            <option value="Russian" {% if "Russian" in selected_languages %}selected{% endif %}>
+              Russian
+            </option>
+            <option value="Spanish" {% if "Spanish" in selected_languages %}selected{% endif %}>
+              Spanish
+            </option>
+            <option value="Other" {% if "Other" in selected_languages %}selected{% endif %}>
+              Other
+            </option>
+          </select>
+            <label for="language" class="sr-only">
+              Language:
+            </label>
+          </div>
+        <div class="input-field">
+          <select id="estBudget" name="estBudget">
+            <option value="" disabled selected>
+              Choose the budget
+            </option>
+            <option value="0-1" {% if kittie_production.est_budget == "0-1" %}selected{% endif %}>
+              $0 - $1M
+            </option>
+            <option value="1-5" {% if kittie_production.est_budget == "1-5" %}selected{% endif %}>
+              $1M - $5M
+            </option>
+            <option value="5-10" {% if kittie_production.est_budget == "5-10" %}selected{% endif %}>
+              $5M - $10M
+            </option>
+            <option value="11-20" {% if kittie_production.est_budget == "11-20" %}selected{% endif %}>
+              $11M - $20M
+            </option>
+            <option value="21-30" {% if kittie_production.est_budget == "21-30" %}selected{% endif %}>
+              $21M - $30M
+            </option>
+            <option value="30+" {% if kittie_production.est_budget == "30+" %}selected{% endif %}>
+              $30M+
+            </option>
+          </select>
+            <label for="estBudget" class="sr-only">
+              Budget:
+            </label>
+        </div>
+          <label for="setting" class="sr-only">
+              Setting:
+          </label>
+            <input
+              type="text"
+              id="setting"
+              name="setting"
+              class="browser-default"
+              value="{{ kittie_production.setting }}"
+            >
+
+      <p>
+        Cover File (A4 page) (.jpeg, .jpg, or .png only) (Max 10MB):
+      </p>
+
+        <div class="file-input">
+          <label for="coverFile">
+            Update cover:
+          </label>
+            <input 
+              class="input-right" 
+              type="file" 
+              id="coverFile" 
+              name="coverFile" 
+            >
+        </div>
+
+      <p>
+        Prooduction Files (A4 page) (.pdf only) (Max 10MB):
+      </p>
+
+        <div class="file-input">
+          <label for="oneSheetFile">
+            Update one sheet:
+          </label>
+            <input 
+              class="input-right" 
+              type="file" 
+              id="oneSheetFile" 
+              name="oneSheetFile"
+            >
+            <input type="hidden" name="remove_one_sheet_file" id="remove_one_sheet_file" value="0">
+              {% if kittie_production.one_sheet_file_path %}
+                <p class="existing-file">
+                  Current file:
+                  {{ kittie_production.one_sheet_file_path.split('/')[-1] }}
+                </p>
+                <button
+                  type="button"
+                  class="file_delete"
+                  onclick="toggleFileRemoval('remove_one_sheet_file', this)"
+                >
+                  Remove One Sheet
+                </button>
+              {% endif %}
+        </div>
+
+        <div class="file-input">
+          <label for="twoSheetFile">
+            Update two sheet:
+          </label>
+            <input 
+              class="input-right" 
+              type="file" 
+              id="twoSheetFile" 
+              name="twoSheetFile"
+            >
+            <input type="hidden" name="remove_two_sheet_file" id="remove_two_sheet_file" value="0">
+              {% if kittie_production.two_sheet_file_path %}
+                <p class="existing-file">
+                  Current file:
+                  {{ kittie_production.two_sheet_file_path.split('/')[-1] }}
+                </p>
+                <button
+                  type="button"
+                  class="file_delete"
+                  onclick="toggleFileRemoval('remove_two_sheet_file', this)"
+                >
+                  Remove Two Sheet
+                </button>
+              {% endif %}
+        </div>
+
+        <div class="file-input">
+          <label for="pitchFile">
+            Update pitch deck:
+          </label>
+            <input 
+              class="input-right" 
+              type="file" 
+              id="pitchFile" 
+              name="pitchFile"
+            >
+            <input type="hidden" name="remove_pitch_deck_file" id="remove_pitch_deck_file" value="0">
+              {% if kittie_production.pitch_deck_file_path %}
+                <p class="existing-file">
+                  Current file:
+                  {{ kittie_production.pitch_deck_file_path.split('/')[-1] }}
+                </p>
+                <button
+                  type="button"
+                  class="file_delete"
+                  onclick="toggleFileRemoval('remove_pitch_deck_file', this)"
+                >
+                  Remove Pitch Deck
+                </button>
+              {% endif %}
+        </div>
+
+        <div class="file-input">
+          <label for="budgetFile">
+            Update budget:
+          </label>
+            <input 
+              class="input-right" 
+              type="file" 
+              id="budgetFile" 
+              name="budgetFile"
+            >
+            <input type="hidden" name="remove_budget_file" id="remove_budget_file" value="0">
+              {% if kittie_production.budget_file_path %}
+                <p class="existing-file">
+                  Current file:
+                  {{ kittie_production.budget_file_path.split('/')[-1] }}
+                </p>
+                <button
+                  type="button"
+                  class="file_delete"
+                  onclick="toggleFileRemoval('remove_budget_file', this)"
+                >
+                  Remove Budget
+                </button>
+              {% endif %}
+        </div>
+
+        <div class="file-input">
+          <label for="treatmentFile">
+            Update treatment:
+          </label>
+            <input 
+              class="input-right" 
+              type="file" 
+              id="treatmentFile" 
+              name="treatmentFile"
+            >
+            <input type="hidden" name="remove_treatment_file" id="remove_treatment_file" value="0">
+              {% if kittie_production.treatment_file_path %}
+                <p class="existing-file">
+                  Current file:
+                  {{ kittie_production.treatment_file_path.split('/')[-1] }}
+                </p>
+                <button
+                  type="button"
+                  class="file_delete"
+                  onclick="toggleFileRemoval('remove_treatment_file', this)"
+                >
+                  Remove Treatment
+                </button>
+              {% endif %}
+        </div>
+        
+        <div class="file-input">
+          <label for="scriptFile">
+            Update script:
+          </label>
+            <input 
+              class="input-right" 
+              type="file" 
+              id="scriptFile" 
+              name="scriptFile"
+            >
+            <input type="hidden" name="remove_script_file" id="remove_script_file" value="0">
+              {% if kittie_production.script_file_path %}
+                <p class="existing-file">
+                  Current file:
+                  {{ kittie_production.script_file_path.split('/')[-1] }}
+                </p>
+                <button
+                  type="button"
+                  class="file_delete"
+                  onclick="toggleFileRemoval('remove_script_file', this)"
+                >
+                  Remove Script
+                </button>
+              {% endif %}
+          </div>
+          <br>
+            <button type="submit" class="btn">
+              Update
+            </button>
+              <a 
+                href="{{ url_for('prod.kittie_production_details', user_id=current_user.id, url=kittie_production.url) }}" 
+                role="button" 
+                alt="Cancel Button" 
+                class="btn right-cancel"
+              >
+                Cancel
+              </a>
+      </form>
+        <br>
+        <br>
+    </div>
+  <br>
+  <br>
+  <br>
+
+  {% endblock %}

@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}
+  USER AUDIT
+{% endblock %}
+
+{% block extra_meta %}<meta name="robots" content="noindex">{% endblock %}
+
+{% block content %}
+
+<div class="user_activity">
+    <h3>
+        {{ selected_user.first_name }} {{ selected_user.last_name }}
+    </h3>
+        <p>
+            {{ selected_user.email }}
+        </p>
+    <h4>
+        User Audit Info
+    </h4>
+        <table>
+            <tbody>
+                <tr>
+                    <th>
+                        User ID
+                    </th>
+                    <td>
+                        {{ selected_user.id }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Created
+                    </th>
+                    <td>
+                        {% if selected_user.created_at %}
+                            {{ selected_user.created_at.strftime('%d/%m/%Y %H:%M') }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Last Updated
+                    </th>
+                    <td>
+                        {% if selected_user.updated_at %}
+                            {{ selected_user.updated_at.strftime('%d/%m/%Y %H:%M') }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Password Updated
+                    </th>
+                    <td>
+                        {% if selected_user.password_updated %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    <h4>
+        Production History
+    </h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Production
+                    </th>
+                    <th>
+                        Audit Action
+                    </th>
+                    <th>
+                        Changed By
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        File Access
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for production in kittie_productions_list %}
+
+                    {% set permission = permission_map.get(production.id) %}
+                    {% set audits = permission_audit_map.get(production.id, []) %}
+                    {% set file_logs = file_access_map.get(production.id, []) %}
+
+                    {% if audits %}
+                        {% for audit in audits %}
+                            <tr>
+                                {% if loop.first %}
+                                    <td rowspan="{{ audits|length }}">
+                                        {{ production.title }}
+                                    </td>
+                                    {% endif %}
+                                    <td>
+                                        {{ audit.action|capitalize }}
+                                    </td>
+                                    <td>
+                                        {% if audit.admin_email_snapshot %}
+                                            {{ audit.admin_email_snapshot }}
+                                        {% else %}
+                                            —
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if audit.created_at %}
+                                            {{ audit.created_at.strftime('%d/%m/%Y %H:%M') }}
+                                        {% else %}
+                                            —
+                                        {% endif %}
+                                    </td>
+                                    {% if loop.first %}
+                                    <td rowspan="{{ audits|length }}" class="left">
+                                        {% if file_logs %}
+                                            {% for log in file_logs if log.file_type != 'cover' %}
+                                                {{ log.action|capitalize }}:
+                                                <br>
+                                                {{ log.filename }}
+                                                <br>
+                                                Draft {{ log.file_version }}
+                                                <br>
+                                                {% if log.created_at %}
+                                                    {{ log.created_at.strftime('%d/%m/%Y %H:%M') }}
+                                                <hr class="log_hr">
+                                                {% else %}
+                                                    —
+                                                {% endif %}
+                                                <br>
+                                            {% endfor %}
+                                        {% else %}
+                                            —
+                                        {% endif %}
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td class="italic">
+                                {{ production.title }}
+                            </td>
+                            <td>
+                                —
+                            </td>
+                            <td>
+                                —
+                            </td>
+                            <td>
+                                —
+                            </td>
+                            <td class="left">
+                                {% if file_logs %}
+                                    {% for log in file_logs if log.file_type != 'cover' %}
+                                        {{ log.action|capitalize }}:
+                                        <br>
+                                        {{ log.filename }}
+                                        <br>
+                                        Draft {{ log.file_version }}
+                                        <br>
+                                        {% if log.created_at %}
+                                            {{ log.created_at.strftime('%d/%m/%Y %H:%M') }}
+                                        <hr class="log_hr">
+                                        {% else %}
+                                            —
+                                        {% endif %}
+                                        <br>
+                                    {% endfor %}
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+</div>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}
