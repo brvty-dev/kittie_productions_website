@@ -15,9 +15,9 @@ class BaseConfig:
     MAIL_USE_TLS = os.getenv("MAIL_USE_TLS", "True").lower() == "true"
     MAIL_PORT = int(os.getenv("MAIL_PORT", 587))
     MAIL_SERVER = os.getenv("MAIL_SERVER", "smtp.mail.me.com")
-    MAIL_USERNAME = os.getenv("MAIL_USERNAME", "hello@kittieproductions.co.uk")
-    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "fpbl-syec-yfyy-sadt")
-    MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", "richard@kittieproductions.co.uk")
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME", "xxxxxxxx@kittieproductions.co.uk")
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "xxxxxxxxxxx")
+    MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", "xxxxxx@kittieproductions.co.uk")
 
 
 class DevConfig(BaseConfig):
